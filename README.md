@@ -1,4 +1,48 @@
-# Marlin 3D Printer Firmware
+# Marlin 3D Printer Firmware (Customized for HEVO with the SKR 1.4 Turbo, ~~BL-Touch Clone~~ and TMC2209 driver)
+
+## Setup the board (orientation: usb and sd card are up, counting from 1)
+- Driver jumper settings:
+  - all pins no. 2 are set in the red section
+```
+          SD-CARD       USB
+b r r     b r r     b r r     b r r     b r r
+b r r <-  b r r <-  b r r <-  b r r <-  b r r <-
+b r r     b r r     b r r     b r r     b r r
+b r r     b r r     b r r     b r r     b r r 
+```
+
+- prepare for non sensorless homing: remove the inner pin completly
+```
+       V
+o   -> o o o
+o      ^   o
+o          o
+o          o
+o          o
+```
+
+## QA
+
+```
+1. sensor is not triggering
+Configuration.h
+
+#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+#define Z_STOP_PIN P2_00
+#define Z_MIN_PROBE_PIN P2_00 // servo pin
+
+You may want to invert the logic if it's triggered when it shouldn't be and visa-versa...#
+#define Z_MIN_ENDSTOP_INVERTING true
+#define Z_MIN_PROBE_ENDSTOP_INVERTING true
+```
+
+```
+2. x-axis moves the wrong way
+- leave mashine config as corexy
+- switch x and y connectors on the board
+- invert the x and y axis in marlin Configuration.h (if it was true, set it to false and vice versa)
+```
+<br><br><br>
 
 ![GitHub](https://img.shields.io/github/license/marlinfirmware/marlin.svg)
 ![GitHub contributors](https://img.shields.io/github/contributors/marlinfirmware/marlin.svg)
